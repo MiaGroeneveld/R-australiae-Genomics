@@ -23,7 +23,7 @@ MZ (Mozambique, n = 28), TZ (Tanzania, 8), MD (Madagascar, 2), RI (Réunion Isla
 | 5 | DAPC | PCs explaining 80% of variance; `find.clusters` for K = 1 to 10 (BIC); `xvalDapc` (100 replicates, 90% training set) and `optim.a.score` (100 simulations); with and without population priors | `RA_set1_DAPC_summary_table.csv`, one results file per dataset |
 | 6 | Adaptive DAPC without Australia | Australia (n = 2) removed because its extreme scores compress the rest of the plot | `RA_set1_adaptive_dapc_noAU_results.RData` |
 | 7 | sNMF | `LEA`; K = 1 to 10, 10 replicates, alpha = 100, K chosen by cross-entropy; barplots with `pophelper` and colours fixed to geographic groups | `RA_set1_snmf_summary.csv`, barplots |
-| 8 | Isolation by distance and environment | see below | `RA_set1_IBD_IBE_results.RData`, `RA_set1_IBD_IBE_results.csv`, plots |
+| 8 | Isolation by distance and environment | Linearised FST; IBD only, IBE only and combined models | `RA_set1_IBD_IBE_results.RData`, `RA_set1_IBD_IBE_results.csv`, plots |
 | 9 | Diversity statistics figure (neutral against adaptive) | built from the section 1 and 2 CSV files | `diversity_neutral_vs_adaptive.pdf/png` |
 | 10 | Sampling map | `sf` and `rnaturalearth` | `RA_IndoPacific_zoomed_out.png/pdf` |
 
