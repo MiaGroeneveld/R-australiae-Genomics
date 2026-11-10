@@ -30,7 +30,7 @@ Populations: MZ (Mozambique, n = 28), TZ (Tanzania, 8), MD (Madagascar, 2), RI (
 | 10 | LFMM (`lfmm2`) on environmental PCs, FDR < 0.01 | R |
 | 11 | Compile the four datasets | R |
 | 12 | Venn diagram of outlier sets | R |
-| 13 | RDA triplots | R |
+| 13 | RDA triplots, Malaysian individuals shown by sampling location (13b), and a PCA of the Malaysian individuals using neutral loci (13c) | R |
 | 14 | Top 10 candidate loci | R |
 
 ### HPC steps
