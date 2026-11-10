@@ -1734,9 +1734,9 @@ cat("Venn diagram saved\n")
 cat("Section 12 complete\n")
 
 # ============================================================
-# SECTION 13: RDA triplots
+# SECTION 13: RDA triplots (13b Malaysia by sampling location; 13c Malaysia PCA)
 # RDA1 vs RDA2 (Panel A) and RDA1 vs RDA3 (Panel B)
-# Individual points coloured by population
+# Individual points coloured by population (13b: Malaysia by sampling location)
 # Environmental arrows labelled
 # Consistent with RA population colour scheme throughout
 # ============================================================
@@ -1791,7 +1791,7 @@ env_labels <- c(
 
 # ── Triplot function ──────────────────────────────────────────────────────────
 make_triplot_RA <- function(ax_x, ax_y, ax_x_var, ax_y_var,
-                             filename, labelled = TRUE) {
+                             filename, labelled = TRUE, ma_sites = NULL) {
 
   # Extract scores for the specific axes requested
   site_sc <- scores(rda_partial, display = "sites",
@@ -1809,6 +1809,7 @@ make_triplot_RA <- function(ax_x, ax_y, ax_x_var, ax_y_var,
 
   ind_x <- site_sc[, 1]
   ind_y <- site_sc[, 2]
+  ids   <- rownames(site_sc)
   bp_x  <- bp_sc[, 1]
   bp_y  <- bp_sc[, 2]
   sp_x  <- sp_sc[, 1]
@@ -1849,8 +1850,10 @@ make_triplot_RA <- function(ax_x, ax_y, ax_x_var, ax_y_var,
     # 2. Individual points — middle layer
     for (pop in POP_ORDER) {
       idx <- which(pop_factor == pop)
+      # Malaysia by sampling location (13b): same colour, shape = location
+      pch_i <- if (pop == "MA" && !is.null(ma_sites)) ma_shapes[ma_sites[ids[idx]]] else 21
       points(ind_x[idx], ind_y[idx],
-             pch = 21, cex = 1.8,
+             pch = pch_i, cex = 1.8,
              bg  = pop_cols_RA[pop],
              col = "black", lwd = 0.8)
     }
@@ -1874,12 +1877,32 @@ make_triplot_RA <- function(ax_x, ax_y, ax_x_var, ax_y_var,
 
     # 4. Legend
     if (labelled) {
-      legend("topright",
-             legend = pop_labels_RA[POP_ORDER],
-             pt.bg  = pop_cols_RA[POP_ORDER],
-             col    = "black", pch = 21,
-             pt.cex = 1.5, pt.lwd = 0.8,
-             bty = "n", cex = 0.85)
+      if (is.null(ma_sites)) {
+        legend("topright",
+               legend = pop_labels_RA[POP_ORDER],
+               pt.bg  = pop_cols_RA[POP_ORDER],
+               col    = "black", pch = 21,
+               pt.cex = 1.5, pt.lwd = 0.8,
+               bty = "n", cex = 0.85)
+      } else {
+        # Malaysia split into its four sampling locations
+        leg_lab <- character(0); leg_bg <- character(0); leg_pch <- numeric(0)
+        for (pop in POP_ORDER) {
+          if (pop == "MA") {
+            leg_lab <- c(leg_lab, paste0("Malaysia: ", names(ma_shapes)))
+            leg_bg  <- c(leg_bg,  rep(pop_cols_RA["MA"], length(ma_shapes)))
+            leg_pch <- c(leg_pch, ma_shapes)
+          } else {
+            leg_lab <- c(leg_lab, pop_labels_RA[pop])
+            leg_bg  <- c(leg_bg,  pop_cols_RA[pop])
+            leg_pch <- c(leg_pch, 21)
+          }
+        }
+        legend("topright", legend = leg_lab, pt.bg = leg_bg,
+               col = "black", pch = leg_pch,
+               pt.cex = 1.5, pt.lwd = 0.8,
+               bty = "n", cex = 0.85)
+      }
     }
     dev.off()
   }
@@ -1901,6 +1924,58 @@ make_triplot_RA("RDA1","RDA3", ax1_var, ax3_var,
 make_triplot_RA("RDA1","RDA3", ax1_var, ax3_var,
                 "RA_set1_triplot_RDA1_RDA3_unlabelled",
                 labelled = FALSE)
+
+
+# ── 13b. Malaysian individuals by sampling location ───────────────────────────
+# The RDA axes separate individuals by the environment at their sampling location, so the
+# Malaysian individuals (n = 10, four locations; sample metadata) are also shown by location:
+# same colour, shape = sampling location
+ma_sites  <- c(MA1  = "Pahang",     MA2 = "Pahang",     MA3 = "Terengganu",
+               MA4  = "Pahang",     MA5 = "Pahang",
+               MA6  = "East Johor", MA7 = "East Johor",
+               MA8  = "West Johor", MA9 = "West Johor", MA10 = "West Johor")
+ma_shapes <- c("West Johor" = 24, "East Johor" = 22, "Pahang" = 21, "Terengganu" = 23)
+
+make_triplot_RA("RDA1","RDA2", ax1_var, ax2_var,
+                "RA_set1_triplot_RDA1_RDA2_Malaysia_locations",
+                labelled = TRUE, ma_sites = ma_sites)
+make_triplot_RA("RDA1","RDA3", ax1_var, ax3_var,
+                "RA_set1_triplot_RDA1_RDA3_Malaysia_locations",
+                labelled = TRUE, ma_sites = ma_sites)
+
+# ── 13c. PCA of the Malaysian individuals (neutral loci) ──────────────────────
+# RDA scores reflect environment as well as genotype, so genetic structure among the Malaysian
+# individuals is checked separately with a PCA of neutral loci, as in the preliminary outlier PCA:
+# dudi.pca (adegenet), centred and not scaled, missing genotypes replaced by the locus mean
+library(adegenet)
+library(ggplot2)
+
+G_pca <- G
+if (is.null(rownames(G_pca)) || is.null(colnames(G_pca))) {      # G can lose its names in the checkpoint
+  if (nrow(G_pca) == length(locus_names_full)) G_pca <- t(G_pca)  # loci x individuals -> individuals x loci
+  stopifnot(nrow(G_pca) == nrow(popmap), ncol(G_pca) == length(locus_names_full))
+  rownames(G_pca) <- popmap$ID
+  colnames(G_pca) <- locus_names_full
+}
+
+X <- G_pca[names(ma_sites), colnames(G_pca) %in% outliers_neutral]
+X <- X[, apply(X, 2, function(x) var(x, na.rm = TRUE) > 0 & sum(!is.na(x)) > 1)]   # drop monomorphic loci
+X <- apply(X, 2, function(x) { x[is.na(x)] <- mean(x, na.rm = TRUE); x })           # locus-mean replacement
+cat("Malaysia PCA based on", ncol(X), "neutral SNPs\n")
+
+pca_ma <- dudi.pca(X, center = TRUE, scale = FALSE, scannf = FALSE, nf = 3)   # scale = TRUE if the preliminary PCA was scaled
+pct_ma <- round(100 * pca_ma$eig / sum(pca_ma$eig), 1)
+
+pcdf <- data.frame(ID = rownames(pca_ma$li), PC1 = pca_ma$li[, 1], PC2 = pca_ma$li[, 2])
+pcdf$Location <- factor(ma_sites[pcdf$ID], levels = names(ma_shapes))
+
+p_ma <- ggplot(pcdf, aes(PC1, PC2, shape = Location)) +
+  geom_point(size = 4, fill = unname(pop_cols_RA["MA"]), colour = "black", stroke = 0.6) +
+  scale_shape_manual(values = ma_shapes, name = "Sampling location") +
+  labs(x = paste0("PC1 (", pct_ma[1], "%)"), y = paste0("PC2 (", pct_ma[2], "%)")) +
+  theme_bw(base_size = 12)
+ggsave("RA_set1_Malaysia_PCA.pdf", p_ma, width = 6.5, height = 5, device = cairo_pdf)
+ggsave("RA_set1_Malaysia_PCA.png", p_ma, width = 6.5, height = 5, dpi = 300)
 
 cat("Section 13 — all triplot panels saved\n")
 
