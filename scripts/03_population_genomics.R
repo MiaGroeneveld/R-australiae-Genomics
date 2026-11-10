@@ -1,5 +1,5 @@
 # ======================================================================
-# RA population genomics: diversity, differentiation, structure and IBD/IBE
+# Population genomics: diversity, differentiation, structure and IBD/IBE
 # Species: Rhynchobatus australiae (RA set1: 71 individuals, 27 562 SNPs)
 # Four SNP datasets from stage 2: neutral, adaptive (any method), high confidence,
 # environmental (RDA). All steps run in R.
@@ -746,7 +746,6 @@ cat("Locus name fix verified ✓\n")
 # Adaptive DAPC — excluding Australia (n=2)
 # Australia excluded: extreme discriminant scores (DA2≈-200)
 # compress WIO + Malaysia structure in full dataset plot
-# Full dataset plot retained in supplementary
 # ============================================================
 
 library(adegenet)
