@@ -1,6 +1,6 @@
 # 01. Assembly and filtering
 
-Processing of 3RADseq data for the bottlenose wedgefish (*Rhynchobatus australiae*, RA), sequenced on one NovaSeq S4 run (paired-end, 2 x 150 bp) together with a second wedgefish species. The pipeline is shown with `SPECIES` as a variable (here RA); steps specific to RA are listed at the end.
+Processing of 3RADseq data for the bottlenose wedgefish (*Rhynchobatus australiae*, RA), sequenced on one NovaSeq S4 run (paired-end, 2 x 150 bp) together with a second wedgefish species.
 
 Steps marked **[HPC]** were run on a cluster and **[R]** in R. Software: FastQC 0.11.5, Cutadapt 1.9.1, Stacks 2.59, VCFtools 0.1.15.
 
