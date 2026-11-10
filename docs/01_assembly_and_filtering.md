@@ -4,12 +4,11 @@ Processing of 3RADseq data for the bottlenose wedgefish (*Rhynchobatus australia
 
 Steps marked **[HPC]** were run on a cluster and **[R]** in R. Software: FastQC 0.11.5, Cutadapt 1.9.1, Stacks 2.59, VCFtools 0.1.15.
 
-## Final datasets
+## Final dataset:
 
-| Dataset | SNPs | n | Missingness | Filters | Use |
-|---|---|---|---|---|---|
-| RA_set1 | 27 562 | 71 | 6.32% | MAC >= 3, FS1 | primary |
-| RA_set2 | 30 380 | 71 | 6.24% | MAC >= 2, FS1 | robustness |
+| SNPs | n | Missingness | Filters |
+|---|---|---|---|
+| 27 562 | 71 | 6.32% | R80Het50MAC3, minGQ20minDP5miss0.8, singleSNP |
 
 ## Settings
 
@@ -98,7 +97,7 @@ stacks-dist-extract gstacks.log.distribs effective_coverages_per_sample | grep -
 
 ### 5.1 Base filter with `populations` [HPC]
 
-All individuals were treated as one population. Loci had to be present in at least 80% of samples, with maximum observed heterozygosity 0.5 and a minor allele count of at least 3 (R80/Het50/MAC3). Additional base combinations tested for RA (R60_Het50_MAC3/ R80_Het50_MAC2).
+All individuals were treated as one population. Loci had to be present in at least 80% of samples, with maximum observed heterozygosity 0.5 and a minor allele count of at least 3 (R80/Het50/MAC3). Additional base combinations tested (R60_Het50_MAC3/ R80_Het50_MAC2).
 
 ```bash
 populations --in-path $OUT --out-path $CORE/filtering/base_R80_Het50_MAC3/ \
@@ -108,7 +107,7 @@ populations --in-path $OUT --out-path $CORE/filtering/base_R80_Het50_MAC3/ \
 
 ### 5.2 Genotype filters with VCFtools [HPC, then R]
 
-Four filter sets were compared in R, and the one with the best balance of missingness and SNP retention (FS1) was used for the primary datasets.
+Four filter sets were compared in R, and the one with the best balance of missingness and SNP retention (FS1) was used.
 
 | Set | min GQ | min DP | max missing |
 |---|---|---|---|
@@ -151,8 +150,3 @@ vcftools --vcf populations.snps.vcf --missing-indv
 awk 'NR>1 {sum+=$5} END {print sum/(NR-1)}' out.imiss     # mean individual missingness
 grep -vc '^#' populations.snps.vcf                          # number of SNPs
 ```
-
-## Notes specific to *R. australiae*
-
-- **Before assembly:** six individuals were removed because of initial mislabelling.
-- **Datasets:** set1 (MAC3, FS1) is the primary dataset and set2 (MAC2, FS1) the robustness dataset.
