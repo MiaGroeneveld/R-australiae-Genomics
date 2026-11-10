@@ -1,8 +1,6 @@
 # R-australiae-Genomics
 
-Scripts and workflow notes for the 3RADseq analyses of the bottlenose wedgefish (*Rhynchobatus australiae*) in the Western Indian Ocean and Indo-West Pacific: population genomics and seascape genomics.
-
-> Companion code for "Population and seascape genomics of the Critically Endangered bottlenose wedgefish (*Rhynchobatus australiae*) from the Indo-West Pacific region" (in prep).
+Scripts and workflow notes for "Population and seascape genomics of the Critically Endangered bottlenose wedgefish (*Rhynchobatus australiae*) from the Indo-West Pacific region" (Groeneveld et al. in prep).
 
 ## Pipeline
 
@@ -37,7 +35,7 @@ Run stage 1, then stage 2 (with the two cluster jobs), then stage 3. Each docume
 
 ## Data availability
 
-Raw sequence data: [accession to be added]. Sample metadata and locality information are not included in this repository.
+Raw sequence data: [<figshare>]. Sample metadata and locality information are not included in this repository.
 
 ## Contact
 
