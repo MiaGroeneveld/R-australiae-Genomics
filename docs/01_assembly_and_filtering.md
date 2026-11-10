@@ -4,7 +4,7 @@ Processing of 3RADseq data for the bottlenose wedgefish (*Rhynchobatus australia
 
 Steps marked **[HPC]** were run on a cluster and **[R]** in R. Software: FastQC 0.11.5, Cutadapt 1.9.1, Stacks 2.59, VCFtools 0.1.15.
 
-## Final dataset:
+## Final dataset
 
 | SNPs | n | Missingness | Filters |
 |---|---|---|---|
