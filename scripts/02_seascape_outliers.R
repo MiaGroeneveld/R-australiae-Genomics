@@ -1,5 +1,5 @@
 # ============================================================
-# RA Seascape Genomics Pipeline — outlier detection and four-dataset compilation
+# Seascape Genomics Pipeline — outlier detection and four-dataset compilation
 # Species: Rhynchobatus australiae
 # ============================================================
 
@@ -1905,97 +1905,7 @@ make_triplot_RA("RDA1","RDA3", ax1_var, ax3_var,
 cat("Section 13 — all triplot panels saved\n")
 
 # ============================================================
-# SECTION 14: Environmental distribution maps
-# Spatial distribution of 4 retained env variables
-# R. australiae sampling range only
-# Bio-ORACLE v3.0 rasters — same datasets used for extraction
-# RA individuals: filled circles (pch=21)
-# ============================================================
-
-library(terra)
-library(rnaturalearth)
-library(rnaturalearthdata)
-library(sf)
-library(biooracler)
-
-# ── Basemap ───────────────────────────────────────────────────────────────────
-world_sp <- as(ne_countries(scale = "medium",
-                             returnclass = "sf"), "Spatial")
-
-# ── RA extent only ────────────────────────────────────────────────────────────
-# RA range: Mozambique to Australia, 30-120E, -35 to 15N
-constraints_RA <- list(latitude  = c(-35, 15),
-                        longitude = c(30, 120))
-
-# ── Download rasters ─────────────────────────────────────────────────────────
-cat("Downloading rasters...\n")
-
-ph_r     <- mean(download_layers(
-  "ph_baseline_2000_2018_depthsurf",
-  variables   = "ph_mean",
-  constraints = constraints_RA))
-
-thetao_r <- mean(download_layers(
-  "thetao_baseline_2000_2019_depthsurf",
-  variables   = "thetao_range",
-  constraints = constraints_RA))
-
-phyc_r   <- mean(download_layers(
-  "phyc_baseline_2000_2020_depthsurf",
-  variables   = "phyc_range",
-  constraints = constraints_RA))
-
-sws_r    <- mean(download_layers(
-  "sws_baseline_2000_2019_depthsurf",
-  variables   = "sws_mean",
-  constraints = constraints_RA))
-
-cat("All rasters downloaded\n")
-
-# ── Population colours ────────────────────────────────────────────────────────
-pop_cols_RA <- c(
-  "TZ" = "#E69F00",
-  "MD" = "#56B4E9",
-  "SY" = "#009E73",
-  "AU" = "#8B008B",
-  "RI" = "#D55E00",
-  "MZ" = "#0072B2",
-  "MA" = "#FF69B4"
-)
-
-ra_col <- pop_cols_RA[as.character(pop_factor)]
-
-# ── Plot function — RA only ───────────────────────────────────────────────────
-make_map_RA <- function(raster_layer, title, filename) {
-  cairo_pdf(filename, width = 12, height = 6)
-  plot(raster_layer,
-       main     = title,
-       axes     = TRUE,
-       box      = FALSE,
-       cex.main = 0.9)
-  plot(world_sp, add = TRUE,
-       border = "grey60", col = "white")
-  points(coords$lon, coords$lat,
-         pch = 21, bg = ra_col,
-         col = "black", cex = 1.2, lwd = 0.5)
-  dev.off()
-  cat(filename, "saved\n")
-}
-
-# ── Export all four maps ──────────────────────────────────────────────────────
-make_map_RA(ph_r,     "pH",
-            "RA_set1_map_ph_mean.pdf")
-make_map_RA(thetao_r, "Temperature range",
-            "RA_set1_map_thetao_range.pdf")
-make_map_RA(phyc_r,   "Phytoplankton range",
-            "RA_set1_map_phyc_range.pdf")
-make_map_RA(sws_r,    "Current mean",
-            "RA_set1_map_sws_mean.pdf")
-
-cat("Section 14 complete — all maps saved\n")
-
-# ============================================================
-# SECTION 15: Top 10 candidate loci
+# SECTION 14: Top 10 candidate loci
 # 10 loci with highest max |r| across all 4 env variables
 # Selected from RDA environmental candidates (n=846)
 # Points coloured by population — all 7 populations included
@@ -2092,7 +2002,7 @@ for (ext in c("pdf","png")) {
   dev.off()
 }
 cat("Top 10 candidate loci plot saved\n")
-cat("Section 15 complete\n")
+cat("Section 14 complete\n")
 
 # ── FINAL CHECKPOINT — all objects ──────────────────────────────────
 save(
