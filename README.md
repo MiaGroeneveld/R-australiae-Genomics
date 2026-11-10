@@ -2,7 +2,7 @@
 
 Scripts and workflow notes for the 3RADseq analyses of the bottlenose wedgefish (*Rhynchobatus australiae*) in the Western Indian Ocean and Indo-West Pacific: population genomics and seascape genomics.
 
-> Companion code for [citation to be added once published].
+> Companion code for "Population and seascape genomics of the Critically Endangered bottlenose wedgefish (Rhynchobatus australiae) from the Indo-West Pacific region" (in prep).
 
 ## Pipeline
 
