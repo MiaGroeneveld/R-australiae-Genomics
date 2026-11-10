@@ -10,11 +10,9 @@ The analysis is one R script, [`scripts/02_seascape_outliers.R`](../scripts/02_s
 |---|---|
 | `RApop_set1.snps.vcf` | RA_set1: 71 individuals, 27 562 SNPs (output of [stage 1](01_assembly_and_filtering.md)) |
 | `RApopmap.txt` | two columns: individual ID, population code |
-| `RA_coordinates.csv` | ID, latitude, longitude (see note on Réunion Island below) |
+| `RA_coordinates.csv` | ID, latitude, longitude |
 
 Populations: MZ (Mozambique, n = 28), TZ (Tanzania, 8), MD (Madagascar, 2), RI (Réunion Island, 9), SY (Seychelles, 12), MA (Malaysia, 10), AU (Australia, 2).
-
-Coordinates for Réunion Island were corrected because of land masking in the environmental rasters: four individuals were moved to the nearest offshore ocean cell, and two had their bathymetry set to -8 m (mean shallow coastal depth).
 
 ## Sections
 
@@ -33,8 +31,7 @@ Coordinates for Réunion Island were corrected because of land masking in the en
 | 11 | Compile the four datasets | R |
 | 12 | Venn diagram of outlier sets | R |
 | 13 | RDA triplots | R |
-| 14 | Environmental distribution maps | R |
-| 15 | Top 10 candidate loci | R |
+| 14 | Top 10 candidate loci | R |
 
 ### HPC steps
 
