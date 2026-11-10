@@ -35,7 +35,7 @@ Run stage 1, then stage 2 (with the two cluster jobs), then stage 3. Each docume
 
 ## Data availability
 
-Raw sequence data: [<figshare>]. Sample metadata and locality information are not included in this repository.
+Raw sequence data will be deposited at Figshare. Sample metadata and locality information are not included in this repository.
 
 ## Contact
 
