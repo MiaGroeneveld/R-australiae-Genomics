@@ -27,14 +27,6 @@ MZ (Mozambique, n = 28), TZ (Tanzania, 8), MD (Madagascar, 2), RI (Réunion Isla
 | 9 | Diversity statistics figure (neutral against adaptive) | built from the section 1 and 2 CSV files | `diversity_neutral_vs_adaptive.pdf/png` |
 | 10 | Sampling map | `sf` and `rnaturalearth` | `RA_IndoPacific_zoomed_out.png/pdf` |
 
-### FST permutation test (section 3)
-
-For each pair of populations, individuals are shuffled between the two populations, FST is recalculated, and the p-value is the proportion of arrangements with an FST at least as large as the observed value. When there are no more than 9 999 distinct arrangements (every pair that includes Madagascar or Australia), all arrangements are enumerated and the p-value is exact. The Madagascar-Australia comparison (two individuals each) cannot reach significance. The permutation code is custom R code, checked against `hierfstat` for every pair (the script stops if the two differ by more than 1e-6).
-
 ## Input
 
 Objects from stage 2 (`RA_seascape_FINAL_checkpoint.RData`) and the stage 1 VCF (`RApop_set1.snps.vcf`).
-
-### Isolation by distance and environment (section 8)
-
-Linearised pairwise FST (FST / (1 - FST)) was the response. Geographic distances are marine least-cost distances averaged to the population level, and environmental distances are Bray-Curtis, Manhattan or Canberra dissimilarities of the population mean values of the four environmental variables retained in the RDA (standardised), with the metric chosen by AIC (Canberra for three of the four datasets, so Canberra is used throughout). Three models (IBD only, IBE only, combined) were fitted with `gls()` from `nlme` by maximum likelihood to obtain AIC values for comparison. Significance of IBD and IBE was assessed with 10 000 permutations of the pairwise genetic values, with R² taken from the observed correlation. Pairwise comparisons share populations, so the p-values and AIC comparisons are indicative.
